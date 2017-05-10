@@ -5,11 +5,12 @@ class Order
     price: 8
   }.freeze
 
-  attr_accessor :material, :items
+  attr_accessor :material, :items, :discounts
 
-  def initialize(material)
+  def initialize(material, discounts_array = [])
     self.material = material
     self.items = []
+    self.discounts = discounts_array
   end
 
   def add(broadcaster, delivery)
@@ -19,6 +20,13 @@ class Order
   def total_cost
     items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
   end
+
+  def total_cost_with_discount
+    total_discount = discounts.inject(0) { |total, discount|
+      total += discount.calculate(total_cost, items) }
+    total_cost - total_discount
+  end
+
 
   def output
     [].tap do |result|

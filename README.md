@@ -78,4 +78,4 @@ I want current discounts to be automatically applied to the total cost of my ord
 - Discount class should allow user to define details of a new discount
 - Current discounts should be passed into the order as arguments
 - Total cost should automatically apply current discounts
-- To consider: should multiple discounts be applied? In what order? For the purposes of this challenge, I will start with just one discount being applied at a time (i.e. order can only take one argument)
+- To consider: should multiple discounts be applied? In what order? Based on the example given, the delivery discount will need to be applied first, followed by the minimum spend discount.
