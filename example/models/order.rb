@@ -35,18 +35,9 @@ class Order
   def output
     [].tap do |result|
       result << "Order for #{material.identifier}:"
-
       result << COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
       result << output_separator
-
-      items.each_with_index do |(broadcaster, delivery), index|
-        result << [
-          broadcaster.name.ljust(COLUMNS[:broadcaster]),
-          delivery.name.to_s.ljust(COLUMNS[:delivery]),
-          ("$#{delivery.price}").ljust(COLUMNS[:price])
-        ].join(' | ')
-      end
-
+      result << output_items
       result << output_separator
       result << "Promotion applied!" if total_cost_with_discount != total_cost
       result << "Total: $#{'%.2f' % total_cost_with_discount}"
@@ -58,4 +49,17 @@ class Order
   def output_separator
     @output_separator ||= COLUMNS.map { |_, width| '-' * width }.join(' | ')
   end
+
+  def output_items
+    [].tap do |result|
+      items.each_with_index do |(broadcaster, delivery), index|
+        result << [
+          broadcaster.name.ljust(COLUMNS[:broadcaster]),
+          delivery.name.to_s.ljust(COLUMNS[:delivery]),
+          ("$#{'%.2f' % delivery.price}").ljust(COLUMNS[:price])
+        ].join(' | ')
+      end
+    end
+  end
+
 end
