@@ -48,7 +48,8 @@ class Order
       end
 
       result << output_separator
-      result << "Total: $#{total_cost}"
+      result << "Promotion applied!" if total_cost_with_discount != total_cost
+      result << "Total: $#{'%.2f' % total_cost_with_discount}"
     end.join("\n")
   end
 
