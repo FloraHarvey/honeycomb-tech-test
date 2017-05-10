@@ -5,8 +5,6 @@ class Order
     price: 8
   }.freeze
 
-  attr_accessor :material, :items, :discounts
-
   def initialize(material, discounts_array = [])
     self.material = material
     self.items = []
@@ -17,12 +15,8 @@ class Order
     items << [broadcaster, delivery]
   end
 
-  def total_cost
-    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
-  end
-
   def total_cost_with_discount
-    order_total = total_cost
+    order_total = total_cost_before_discount
     i = 0
     while i < discounts.count do
       discount = discounts[i].calculate(order_total, items)
@@ -39,12 +33,18 @@ class Order
       result << output_separator
       result << output_items
       result << output_separator
-      result << "Promotion applied!" if total_cost_with_discount != total_cost
+      result << "Promotion applied!" if total_cost_with_discount != total_cost_before_discount
       result << "Total: $#{'%.2f' % total_cost_with_discount}"
     end.join("\n")
   end
 
   private
+
+  attr_accessor :material, :items, :discounts
+
+  def total_cost_before_discount
+    items.inject(0) { |memo, (_, delivery)| memo += delivery.price }
+  end
 
   def output_separator
     @output_separator ||= COLUMNS.map { |_, width| '-' * width }.join(' | ')

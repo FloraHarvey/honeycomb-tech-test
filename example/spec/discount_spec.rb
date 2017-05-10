@@ -28,7 +28,7 @@ describe Discount do
 
     context 'percent_off' do
 
-      it 'can have conditions set for which it applies' do
+      it 'checks if discount applies based on conditions set' do
         discount = Discount.new(:percent_off, 10)
         discount.define_min_spend(30)
         expect(discount.applies?(20, example_items1)).to eq(false)
@@ -38,7 +38,7 @@ describe Discount do
 
     context 'delivery price reduction' do
 
-      it 'checks whether minimum number of deliveries met' do
+      it 'checks if discount applies based on conditions set' do
         discount = Discount.new(:delivery_price_reduction, 15, :express)
         discount.define_min_deliveries(2)
         expect(discount.applies?(30, example_items1)).to eq(false)
@@ -49,22 +49,45 @@ describe Discount do
   end
 
   describe 'calculating discount' do
-    it 'calculates a delivery discount for 2 express deliveries' do
-      discount = Discount.new(:delivery_price_reduction, 15, :express)
-      discount.define_min_deliveries(2)
-      expect(discount.calculate(40, example_items2)).to eq(10)
+    context 'discount applies' do
+      it 'calculates a delivery discount for 2 express deliveries' do
+        discount = Discount.new(:delivery_price_reduction, 15, :express)
+        discount.define_min_deliveries(2)
+        expect(discount.calculate(40, example_items2)).to eq(10)
+      end
+
+      it 'calculates a delivery discount for given minimum spend' do
+        discount = Discount.new(:delivery_price_reduction, 15, :express)
+        discount.define_min_spend(20)
+        expect(discount.calculate(40, example_items4)).to eq(5)
+      end
+
+      it 'calculates a percent off discount for a given number of deliveries' do
+        discount = Discount.new(:percent_off, 10, :express)
+        discount.define_min_deliveries(2)
+        expect(discount.calculate(40, example_items2)).to eq(4)
+      end
+
+      it 'calculates a percent off discount for a given minimum spend' do
+        discount = Discount.new(:percent_off, 10)
+        discount.define_min_spend(30)
+        expect(discount.calculate(40, example_items4)).to eq(4)
+      end
     end
 
-    it 'calculates a percent off discount for a given minimum spend' do
-      discount = Discount.new(:percent_off, 10)
-      discount.define_min_spend(30)
-      expect(discount.calculate(40, example_items4)).to eq(4)
-    end
+    context 'discount does not apply' do
 
-    it 'calculates delivery discount as 0 if specified conditions have not been met' do
-      discount = Discount.new(:delivery_price_reduction, 15, :express)
-      discount.define_min_deliveries(2)
-      expect(discount.calculate(40, example_items4)).to eq(0)
+      it 'calculates delivery discount as 0 if specified conditions have not been met' do
+        discount = Discount.new(:delivery_price_reduction, 15, :express)
+        discount.define_min_deliveries(2)
+        expect(discount.calculate(40, example_items4)).to eq(0)
+      end
+
+      it 'calculates percent off discount as 0 if specified conditions have not been met' do
+        discount = Discount.new(:percent_off, 10)
+        discount.define_min_spend(30)
+        expect(discount.calculate(10, example_items3)).to eq(0)
+      end
     end
 
   end
