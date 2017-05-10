@@ -49,7 +49,7 @@ class Discount
   end
 
   def calculate_percent_off_discount(total_cost)
-    total_cost / @discount
+    total_cost / @discount.to_f
   end
 
 end

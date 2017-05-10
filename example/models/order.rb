@@ -22,11 +22,15 @@ class Order
   end
 
   def total_cost_with_discount
-    total_discount = discounts.inject(0) { |total, discount|
-      total += discount.calculate(total_cost, items) }
-    total_cost - total_discount
+    order_total = total_cost
+    i = 0
+    while i < discounts.count do
+      discount = discounts[i].calculate(order_total, items)
+      order_total -= discount
+      i += 1
+    end
+    order_total
   end
-
 
   def output
     [].tap do |result|

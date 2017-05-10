@@ -59,5 +59,20 @@ describe Order do
       end
     end
 
+    context 'with delivery and percent off discount' do
+      it 'applies multiple discounts in the order specified' do
+        express15 = Discount.new(:delivery_price_reduction, 15, :express)
+        express15.define_min_deliveries(2)
+        spend30 = Discount.new(:percent_off, 10)
+        spend30.define_min_spend(30)
+
+        order = Order.new(material, [express15, spend30])
+        order.add broadcaster_1, express_delivery
+        order.add broadcaster_2, express_delivery
+        order.add broadcaster_3, express_delivery
+
+        expect(order.total_cost_with_discount).to eq(40.50)
+      end
+    end
   end
 end
