@@ -71,7 +71,7 @@ I want current discounts to be automatically applied to the total cost of my ord
 ## Example
 Below is the output from the examples provided in the spec.
 
-![output](https://raw.githubusercontent.com/floraharvey/honeycomb-tech-test/example_output.png)
+![output](https://raw.githubusercontent.com/floraharvey/honeycomb-tech-test/blob/master/example_output.png)
 
 ## Improvements to the code
 
