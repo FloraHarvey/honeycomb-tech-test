@@ -29,7 +29,7 @@ class Order
   def output
     [].tap do |result|
       result << "Order for #{material.identifier}:"
-      result << COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
+      result << output_header
       result << output_separator
       result << output_items
       result << output_separator
@@ -48,6 +48,10 @@ class Order
 
   def output_separator
     @output_separator ||= COLUMNS.map { |_, width| '-' * width }.join(' | ')
+  end
+
+  def output_header
+    COLUMNS.map { |name, width| name.to_s.ljust(width) }.join(' | ')
   end
 
   def output_items
