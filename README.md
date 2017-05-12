@@ -36,7 +36,7 @@ Based on the both Discounts applied, the following examples should be valid:
 
 ## Approach
 
-I identified two parts to this challenge, creating discounts and calculating discounts. In order to make the discount feature flexible, and to allow users in other parts of Honeycomb's business to add new discounts there needs to be a way for them to input the details of a promotion, and for that to automatically define a new discount. Second, current discounts need to be applied to the calculation of total order cost.
+I identified two parts to this challenge, creating discounts and calculating discounts. In order to make the discount feature flexible, and to allow users in other parts of Honeycomb's business to add new discounts there needs to be a way for them to input the details of a promotion, and add it to the list of current promotions. Current discounts then need to be applied to the calculation of total order cost.
 
 The following user stories break down the necessary features:
 
@@ -64,14 +64,14 @@ I want current discounts to be automatically applied to the total cost of my ord
 
 
 ## How to use
-- Navigate to example directory in the command line
+- Clone this repo
 - Run `ruby run.rb` to view example output
-- Run rspec to view the tests
+- Run `rspec` to view the tests
 
 ## Example
 Below is the output from the examples provided in the spec.
 
-![output](https://raw.githubusercontent.com/floraharvey/...)
+![output](https://raw.githubusercontent.com/floraharvey/honeycomb-tech-test/example_output.png)
 
 ## Improvements to the code
 
@@ -82,5 +82,5 @@ Below is the output from the examples provided in the spec.
 
 ## Ideas for extension
 
-- The programme currently only supports the two types of discount given in the example - further code would have to be written to allow more flexible offers such as 2 for 1, but this could be addressed when the need arises.
+- The programme currently only supports two types of discount (percent-off and delivery price reduction) given in the example - further code would have to be written to allow more flexible offers such as 2 for 1, but this could be addressed when the need arises.
 - To extend this project, I would suggest adding a current promotions class to allow salespeople to manage the list of current discounts - there could be functions to add/remove/save created discounts.
